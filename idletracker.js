@@ -1,5 +1,5 @@
 /**
- * IdleTracker for Ximpel will reset Ximpel to its initial state after some
+ * IdleTracker version 9 for Ximpel will reset Ximpel to its initial state after some
  * idle time, measured as time without any clicks/taps or mouse moves.
  *
  * Basic usage:
