@@ -2,6 +2,9 @@ module.exports = {
     "env": {
         "browser": true
     },
+    "globals": {
+        "$": false
+    },
     "extends": "eslint:recommended",
     "rules": {
         "indent": [
