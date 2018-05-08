@@ -30,7 +30,7 @@
                     <overlay shape="rectangle"
                         x="500" y="800"
                         width="300px" height="150px"
-                        leadsTo="iframe:solarsystem"
+                        leadsTo="iframe:earth"
                         alpha="0.3"
                         hoverAlpha="0.5"
                         text="Iframe example" />
@@ -49,9 +49,9 @@
         </subject>
 
         <!-- Iframe example -->
-        <subject id="iframe:solarsystem">
+        <subject id="iframe:earth">
             <media>
-                <iframe url="http://joshworth.com/dev/pixelspace/pixelspace_solarsystem.html">
+                <iframe url="https://earth.nullschool.net/#current/wind/surface/level/orthographic=17.21,41.80,366">
                     <!-- Home button -->
                     <overlay leadsTo="screen:main" x="100" y="800" width="200px" height="200px" image="media/home_button.png" backgroundColor="transparent" alpha="1" hoverAlpha="1"/>
                 </iframe>
