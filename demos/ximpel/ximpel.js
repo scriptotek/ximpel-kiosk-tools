@@ -1187,11 +1187,9 @@ ximpel.Player = function( playerElement, playlistModel, configModel ){
 
 	// Propagate iframe open/close events from the MediaPlayer object
 	this.sequencePlayer.mediaPlayer.addEventHandler( this.sequencePlayer.mediaPlayer.EVENT_IFRAME_OPEN, function(evt) {
-		console.log(evt);
 		this.pubSub.publish( this.EVENT_IFRAME_OPEN, evt );
 	}.bind(this));
 	this.sequencePlayer.mediaPlayer.addEventHandler( this.sequencePlayer.mediaPlayer.EVENT_IFRAME_CLOSE, function(evt) {
-		console.log(evt);
 		this.pubSub.publish( this.EVENT_IFRAME_CLOSE, evt );
 	}.bind(this));
 
@@ -3007,7 +3005,10 @@ ximpel.MediaPlayer.prototype.handleOverlayClick = function( overlayModel, overla
 
 			$closeButton = $('<img class="closeButton" src="ximpel/images/close_button.png"/>')
 				.one('click', function(){
-					this.pubSub.publish( this.EVENT_IFRAME_CLOSE, url );
+					this.pubSub.publish( this.EVENT_IFRAME_CLOSE, {
+						$iframe: $urlDisplay.find('iframe'),
+						url: url,
+					});
 					$urlDisplay.remove();
 					if( $player.isPaused() ){
 						$player.resume();
@@ -3018,7 +3019,10 @@ ximpel.MediaPlayer.prototype.handleOverlayClick = function( overlayModel, overla
 				.append( $closeButton )
 				.appendTo( this.player.getPlayerElement() );
 
-			this.pubSub.publish( this.EVENT_IFRAME_OPEN, url );
+			this.pubSub.publish( this.EVENT_IFRAME_OPEN, {
+				$iframe: $urlDisplay.find('iframe'),
+				url: url,
+			});
 
 		} else{
 			// start playing the subject specified in the leadsTo
@@ -5639,7 +5643,10 @@ ximpel.mediaTypeDefinitions.Iframe.prototype = new ximpel.MediaType();
 ximpel.mediaTypeDefinitions.Iframe.prototype.mediaPlay = function(){
     this.state = 'playing';
     this.$parentElement.append( this.$iframeSpan );
-    this.player.pubSub.publish( this.player.EVENT_IFRAME_OPEN, { $iframe: this.$iframeSpan, url: this.customAttributes.url} );
+    this.player.pubSub.publish( this.player.EVENT_IFRAME_OPEN, {
+        $iframe: this.$iframeSpan.find('iframe'),
+        url: this.customAttributes.url,
+    });
 }
   
 ximpel.mediaTypeDefinitions.Iframe.prototype.mediaPause = function(){
@@ -5648,7 +5655,10 @@ ximpel.mediaTypeDefinitions.Iframe.prototype.mediaPause = function(){
   
 ximpel.mediaTypeDefinitions.Iframe.prototype.mediaStop = function(){
     this.state = 'stopped';
-    this.player.pubSub.publish( this.player.EVENT_IFRAME_CLOSE, { $iframe: this.$iframeSpan, url: this.customAttributes.url} );
+    this.player.pubSub.publish( this.player.EVENT_IFRAME_CLOSE, {
+        $iframe: this.$iframeSpan.find('iframe'),
+        url: this.customAttributes.url,
+    });
     this.$iframeSpan.detach();
 }
   
