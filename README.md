@@ -29,7 +29,7 @@ app.load().done(function() {
 
 See [demo1](./demos/demo1.html) for a working example.
 
-### Special cases
+### Idletracker – rules for special cases
 
 Rules can be defined to support special cases. For instance, you might have long-running videos
 where you don't want to reset the app in the middle of the video even though the user is idle.
@@ -58,7 +58,7 @@ app.load().done( function () {
 
 See [demo2](./demos/demo2.html) for a working example.
 
-### Iframes and YouTube videos
+### Idletracker – iframes and YouTube videos
 
 When an [iframe](http://www.ximpel.net/docs/html5/playlist_iframe.htm) is opened, Idletracker will try to attach to it to register any activity there as well.
 
@@ -71,9 +71,13 @@ For Chrome, this means setting the `--disable-web-security` and `--user-data-dir
 
 * While [the YouTube mediatype](http://www.ximpel.net/docs/html5/playlist_youtube.htm) technically uses iframes from a a different domain, the component adds an overlay so that any events are registered as normal without having to disable the browser's same-origin policy.
 
-## Disabling external links from iframes
+## Keeping users within the app
 
-When displaying iframe content, you might want to disable links to external sites.
+### Disabling external links in iframes
+
+When displaying iframe content, you might not want the user to navigate away from the displayed site.
+The code below can be used to prevent that from happening.
+Replace `!evt.target.host.match(/uio.no/)` with a test for your domain of choice.
 
 ```javascript
 // Create a Ximpel instance
@@ -99,7 +103,21 @@ app.load().done( function () {
 });
 ```
 
-## Adopting to window size / fullscreen
+### YouTube videos
+
+Ximpel adds an overlay to prevent users from navigating away from an embedded video.
+However, we identified a strange issue where a small part of the YouTube logo still was clickable in some cases.
+Our workaround was to apply the CSS below:
+
+```css
+/* Very weird fix to make the youtube-logo non-clickable in touch mode on chrome.. */
+.youtubeClickCatcher {
+    width: 110% !important;
+    height: 110% !important;
+}
+```
+
+## Resizing to window size / Starting in fullscreen
 
 Ximpel ships with a fullscreen button that uses the [fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API) of the browser, but this cannot be triggered automatically, so when running Ximpel as a kiosk system, we
 start the browser in fullscreen using the appropriate command line flag (e.g. `chrome --kiosk`) and then let Ximpel
