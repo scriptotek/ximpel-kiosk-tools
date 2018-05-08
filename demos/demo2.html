@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge, chrome=1" />
+    <title>Demo 2 - Ximpel</title>
+
+    <link rel="stylesheet" href="ximpel/ximpel.css" type="text/css" />
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+    <script type="text/javascript" src="ximpel/ximpel.js"></script>
+    <script type="text/javascript" src="../idletracker.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        // Create a Ximpel instance
+        var app = new ximpel.XimpelApp('ximpelapp', 'playlist.xml', 'config.xml');
+
+        // Tell Ximpel to load the playlist and config file.
+        app.load({'autoPlay': true}).done( function(){
+
+            // When Ximpel is done loading, setup IdleTracker
+            IdleTracker.configure({
+                limit: 30,          // time of inactivity in seconds before the app is reset
+                mousemove: false,   // don't track mousemove events, useful for testing purposes
+                debug: true,        // show countdown in the browser console, useful for testing purposes
+                rules: [
+                    {
+                        // Pause idletimer during any scene that starts with "video:"
+                        pattern: /^video:/,
+                        pause: true,
+                    }
+                ],
+                app: app,
+            });
+
+        });
+    </script>
+</body>
+</html>

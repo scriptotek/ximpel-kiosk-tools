@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge, chrome=1" />
+    <title>Demo 3 - Ximpel</title>
+
+    <link rel="stylesheet" href="ximpel/ximpel.css" type="text/css" />
+    <style type="text/css">
+        body {
+            background: black;
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+    <script type="text/javascript" src="ximpel/ximpel.js"></script>
+    <script type="text/javascript" src="../idletracker.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+
+        // Create a Ximpel instance
+        var app = new ximpel.XimpelApp('ximpelapp', 'playlist.xml', 'config.xml', {
+            appWidth: window.innerWidth + 'px',
+            appHeight: window.innerHeight + 'px',
+        });
+
+        // Tell Ximpel to load the playlist and config file.
+        app.load({'autoPlay': true}).done( function(){
+
+            // When Ximpel is done loading, setup IdleTracker
+            IdleTracker.configure({
+                limit: 10,          // time of inactivity in seconds before the app is reset
+                mousemove: false,   // don't track mousemove events, useful for testing purposes
+                debug: true,        // show countdown in the browser console, useful for testing purposes
+                rules: [
+                    {
+                        // Pause idletimer during any scene that starts with "video:"
+                        pattern: /^video:/,
+                        pause: true,
+                    }
+                ],
+                app: app,
+            });
+
+        });
+
+        function onResize() {
+            $('.ximpelApp').width(window.innerWidth);
+            $('.ximpelApp').height(window.innerHeight);
+        }
+
+        $( window ).on('resize', onResize );
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ximpel>
+    <playlist>
+
+        <!-- Intro screen -->
+        <subject id="screen:attract" leadsTo="screen:main">
+            <media>
+                <image duration="5" src="media/2017-12-14-19-50-08.jpg">
+                    <overlay
+                        x="100" y="500" width="1800px"
+                        alpha="0.7" hoverAlpha="0.7"
+                        fontSize="30pt"
+                        text="XIMPEL is a free open-source platform to create interactive media applications..."
+                        leadsTo="screen:main" />
+                </image>
+            </media>
+        </subject>
+
+        <!-- Main screen -->
+        <subject id="screen:main">
+            <media>
+                <image src="media/2017-12-13-08-35-12.jpg">
+                    <overlay shape="rectangle"
+                        x="100" y="800"
+                        width="300px" height="150px"
+                        leadsTo="video:main"
+                        alpha="0.3"
+                        hoverAlpha="0.5"
+                        text="YouTube example" />
+                    <overlay shape="rectangle"
+                        x="500" y="800"
+                        width="300px" height="150px"
+                        leadsTo="iframe:solarsystem"
+                        alpha="0.3"
+                        hoverAlpha="0.5"
+                        text="Iframe example" />
+                </image>
+            </media>
+        </subject>
+
+        <!-- YouTube video example -->
+        <subject id="video:main">
+            <media>
+                <youtube id="2waQbDpHZ8E" startTime="8">
+                    <!-- Home button -->
+                    <overlay leadsTo="screen:main" x="100" y="800" width="200px" height="200px" image="media/home_button.png" backgroundColor="transparent" alpha="1" hoverAlpha="1"/>
+                </youtube>
+            </media>
+        </subject>
+
+        <!-- Iframe example -->
+        <subject id="iframe:solarsystem">
+            <media>
+                <iframe url="http://joshworth.com/dev/pixelspace/pixelspace_solarsystem.html">
+                    <!-- Home button -->
+                    <overlay leadsTo="screen:main" x="100" y="800" width="200px" height="200px" image="media/home_button.png" backgroundColor="transparent" alpha="1" hoverAlpha="1"/>
+                </iframe>
+            </media>
+        </subject>
+
+    </playlist>
+</ximpel>
