@@ -15,8 +15,9 @@ Idletracker is a simple add-on for Ximpel that automatically resets the app afte
 // Create a Ximpel instance
 var app = new ximpel.XimpelApp('ximpelapp', 'playlist.xml', 'config.xml');
 
-// Tell Ximpel to load the playlist and config
-app.load().done(function() {
+// Tell Ximpel to load the playlist and config, but do not play automatically,
+// since we want to configure IdleTracker before Ximpel starts playing.
+app.load({autoPlay: false}).done(function() {
 
     // When Ximpel is ready, initiate Idletracker
     IdleTracker.configure({
@@ -24,6 +25,9 @@ app.load().done(function() {
         debug: true,        // Show countdown in the browser console, useful for testing purposes.
         app: app,           // Tell IdleTracker about our Ximpel app
     });
+
+    // Then start playing the app
+    app.ximpelPlayer.play();
 });
 ```
 
@@ -38,8 +42,9 @@ where you don't want to reset the app in the middle of the video even though the
 // Create a Ximpel instance
 var app = new ximpel.XimpelApp('ximpelapp', 'playlist.xml', 'config.xml');
 
-// Tell Ximpel to load the playlist and config
-app.load().done( function () {
+// Tell Ximpel to load the playlist and config, but do not play automatically,
+// since we want to configure IdleTracker before Ximpel starts playing.
+app.load({autoPlay: false}).done( function () {
 
     // When Ximpel is ready, initiate Idletracker
     IdleTracker.configure({
@@ -53,6 +58,9 @@ app.load().done( function () {
             }
         ],
     });
+
+    // Then start playing the app
+    app.ximpelPlayer.play();
 });
 ```
 
@@ -83,8 +91,9 @@ Replace `!evt.target.host.match(/uio.no/)` with a test for your domain of choice
 // Create a Ximpel instance
 var app = new ximpel.XimpelApp('ximpelapp', 'playlist.xml', 'config.xml');
 
-// Tell Ximpel to load the playlist and config
-app.load().done( function () {
+// Tell Ximpel to load the playlist and config, but do not play automatically,
+// since we want to configure event subscribers before Ximpel starts playing.
+app.load({autoPlay: false}).done( function () {
 
     // When an iframe is created,
     app.ximpelPlayer.addEventHandler('iframe_open', function() {
@@ -100,8 +109,16 @@ app.load().done( function () {
         }, true);
     });
 
+    // Then start playing the app
+    app.ximpelPlayer.play();
+
 });
 ```
+
+Note that attaching to iframes this way only works for iframes at the *same domain* as the Ximpel app.
+If you need to disable external links in an iframe hosted at another domain, you could either
+set up a proxy at your own domain, or disable the browser's same-origin police (more information about that
+under "Idletracker – iframes and YouTube videos" above).
 
 ### YouTube videos
 
@@ -141,14 +158,16 @@ var app = new ximpel.XimpelApp('ximpelapp', 'playlist.xml', 'config.xml', {
 });
 
 // Tell Ximpel to load the playlist and config file.
-app.load({'autoPlay': true});
+app.load({autoPlay: false}).done(function() {
+    // Then start playing.
+    app.ximpelPlayer.play();
+});
 
 // Update the dimensions of the ximpel element on window resize
-$( window ).on('resize', function onResize() {
+$(window).on('resize', function onResize() {
     $('.ximpelApp').width(window.innerWidth);
     $('.ximpelApp').height(window.innerHeight);
-} );
-
+});
 ```
 
 Note: In general it's good practice to throttle the `resize` event since it can fire very rapidly.

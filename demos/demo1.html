@@ -16,8 +16,9 @@
         // Create a Ximpel instance
         var app = new ximpel.XimpelApp('ximpelapp', 'playlist.xml', 'config.xml');
 
-        // Tell Ximpel to load the playlist and config file.
-        app.load({'autoPlay': true}).done( function(){
+        // Tell Ximpel to load the playlist and config, but do not play automatically,
+        // since we want to configure IdleTracker before Ximpel starts playing.
+        app.load({'autoPlay': false}).done( function(){
 
             // When Ximpel is done loading, setup IdleTracker
             IdleTracker.configure({
@@ -26,6 +27,8 @@
                 app: app,           // Tell IdleTracker about our Ximpel app.
             });
 
+            // Then start playing the app
+            app.ximpelPlayer.play();
         });
     </script>
 </body>
