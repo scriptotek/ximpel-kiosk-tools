@@ -47,6 +47,8 @@
  * This is free and unencumbered software released into the public domain.
  * For more information, please refer to <http://unlicense.org>
  */
+
+// eslint-disable-next-line no-unused-vars
 var IdleTracker = (function () {
 
     var app;
@@ -87,6 +89,7 @@ var IdleTracker = (function () {
      */
     function log (msg) {
         if (options.debug) {
+            // eslint-disable-next-line no-console
             console.log('[IdleTracker] ' + msg);
         }
     }
@@ -188,8 +191,9 @@ var IdleTracker = (function () {
      */
     function onIframeOpen (data) {
         if (data.$iframe && data.$iframe[0] && data.$iframe[0].contentWindow) {
-            addEventListeners(data.$iframe[0].contentWindow);
+            addGenericEventListeners(data.$iframe[0].contentWindow);
         } else {
+            // eslint-disable-next-line no-console
             console.warn('[IdleTracker] Cannot attach to iframe, possibly due to it being cross-domain.');
         }
     }
@@ -225,9 +229,9 @@ var IdleTracker = (function () {
     }
 
     /**
-     * Listen to various events in order to track activity.
+     * Listen to browser events in order to track activity.
      */
-    function addEventListeners (window) {
+    function addGenericEventListeners (window) {
         log('Registering event listeners for window');
 
         if (options.mousemove) {
@@ -240,20 +244,25 @@ var IdleTracker = (function () {
             window.addEventListener( 'mousedown', onActivityThrottled, { passive: true, capture: true } );
             window.addEventListener( 'touchstart', onActivityThrottled, { passive: true, capture: true } );
         }
-
-        if (options.app) {
-            // Subscribe to 'swipe' events from Ximpel
-            options.app.ximpelPlayer.addEventHandler( 'swipe', onActivityThrottled );
-
-            // Subscribe to 'subject_playing' events from Ximpel
-            options.app.ximpelPlayer.addEventHandler( 'subject_playing', onSubjectChanged);
-
-            // When an iframe is opened, we need to subscribe to the events of its window.
-            options.app.ximpelPlayer.addEventHandler( 'iframe_open', onIframeOpen );
-        }
     }
 
-    addEventListeners(window);
+    /**
+     * Listen to Ximpel events in order to track activity.
+     */
+    function addXimpelEventListeners(app) {
+        log('Registering event listeners for Ximpel app');
+
+        // Subscribe to 'swipe' events from Ximpel
+        app.ximpelPlayer.addEventHandler( 'swipe', onActivityThrottled );
+
+        // Subscribe to 'subject_playing' events from Ximpel
+        app.ximpelPlayer.addEventHandler( 'subject_playing', onSubjectChanged);
+
+        // When an iframe is opened, we need to subscribe to the events of its window.
+        app.ximpelPlayer.addEventHandler( 'iframe_open', onIframeOpen );
+    }
+
+    addGenericEventListeners(window);
 
     /**
      * Public interface
@@ -276,7 +285,10 @@ var IdleTracker = (function () {
             });
 
             // Setup listeners again since options may now have changed.
-            addEventListeners(window);
+            addGenericEventListeners(window);
+            if (options.app) {
+                addXimpelEventListeners(options.app);
+            }
         },
 
         /**
