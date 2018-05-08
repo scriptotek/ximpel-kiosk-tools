@@ -52,6 +52,11 @@
         <subject id="iframe:earth">
             <media>
                 <iframe url="https://earth.nullschool.net/#current/wind/surface/level/orthographic=17.21,41.80,366">
+
+                    <!-- Add "click catchers" on top of links to external sites to prevent the links from working -->
+                    <overlay shape="rectangle" x="0" y="900" width="300px" height="200px" backgroundColor="green" alpha="0" hoverAlpha="0" />
+                    <overlay shape="rectangle" x="1600" y="900" width="300px" height="200px" backgroundColor="green" alpha="0" hoverAlpha="0" />
+
                     <!-- Home button -->
                     <overlay leadsTo="screen:main" x="100" y="800" width="200px" height="200px" image="media/home_button.png" backgroundColor="transparent" alpha="1" hoverAlpha="1"/>
                 </iframe>

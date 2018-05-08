@@ -116,9 +116,14 @@ app.load({autoPlay: false}).done( function () {
 ```
 
 Note that attaching to iframes this way only works for iframes at the *same domain* as the Ximpel app.
-If you need to disable external links in an iframe hosted at another domain, you could either
+
+- If you need to disable external links in an iframe hosted at another domain, you could either
 set up a proxy at your own domain, or disable the browser's same-origin police (more information about that
 under "Idletracker – iframes and YouTube videos" above).
+
+- In some specific cases, it can also work to just add some strategically placed overlays over the external links
+  to catch the clicks. For an example, see the "iframe example" in [the demo playlist](./demos/playlist.xml)
+  and the resulting effect [here](./demos/demo3.html#iframe:earth).
 
 ### YouTube videos
 
