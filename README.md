@@ -27,7 +27,7 @@ app.load({autoPlay: false}).done(function() {
     });
 
     // Then start playing the app
-    app.ximpelPlayer.play();
+    app.startPlayer();
 });
 ```
 
@@ -60,7 +60,7 @@ app.load({autoPlay: false}).done( function () {
     });
 
     // Then start playing the app
-    app.ximpelPlayer.play();
+    app.startPlayer();
 });
 ```
 
@@ -110,7 +110,7 @@ app.load({autoPlay: false}).done( function () {
     });
 
     // Then start playing the app
-    app.ximpelPlayer.play();
+    app.startPlayer();
 
 });
 ```
@@ -165,7 +165,7 @@ var app = new ximpel.XimpelApp('ximpelapp', 'playlist.xml', 'config.xml', {
 // Tell Ximpel to load the playlist and config file.
 app.load({autoPlay: false}).done(function() {
     // Then start playing.
-    app.ximpelPlayer.play();
+    app.startPlayer();
 });
 
 // Update the dimensions of the ximpel element on window resize
