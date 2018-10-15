@@ -4,6 +4,8 @@
 This repo contains [idletracker.js](./idletracker.js) and some tricks for using [Ximpel](http://ximpel.net/) as a kiosk platform.
 These are outcomes from the [Visual Navigation Project](https://www.ub.uio.no/om/prosjekter/the-visualisation-project/) at the University of Oslo Library.
 
+See also [browser-kiosk-windows-setup](https://github.com/scriptotek/browser-kiosk-windows-setup) for general tips on setting up a Chrome-based kiosk on Windows.
+
 ![Abelprisen](abel.jpg)
 
 ## Idletracker
